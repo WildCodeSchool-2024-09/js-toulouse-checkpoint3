@@ -10,12 +10,13 @@ type Boat = {
 };
 
 class BoatRepository {
-  async readAll(where = {}) {
+  async readAll(where?: { name: string } | null | undefined) {
     // Execute the SQL SELECT query to retrieve all boats from the "boat" table
     const [rows] = await databaseClient.query<Rows>(
       `select boat.id, boat.coord_x, boat.coord_y, boat.name, t.type, t.has_treasure from boat INNER JOIN tile t on 
     boat.coord_x = t.coord_x 
-    and boat.coord_y = t.coord_y `,
+    and boat.coord_y = t.coord_y ${where ? "where boat.name = ?" : ""}`,
+      where?.name ? [where.name] : [],
     );
 
     // Return the array of tiles
