@@ -3,7 +3,9 @@ import boatRepository from "./boatRepository";
 
 const browse: RequestHandler = async (req, res, next) => {
   try {
-    const boats = await boatRepository.readAll();
+    const boats = await boatRepository.readAll(
+      req.query.name ? { name: req.query.name as string } : null,
+    );
 
     res.json(boats);
   } catch (err) {

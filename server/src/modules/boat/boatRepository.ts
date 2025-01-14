@@ -9,7 +9,7 @@ type Boat = {
 };
 
 class BoatRepository {
-  async readAll(where = {}) {
+  async readAll(where?: { name: string } | null | undefined) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
         boat.id,
@@ -19,7 +19,9 @@ class BoatRepository {
         tile.type,
         tile.has_treasure
       FROM boat
-      JOIN tile ON boat.coord_x = tile.coord_x AND boat.coord_y = tile.coord_y`,
+      JOIN tile ON boat.coord_x = tile.coord_x AND boat.coord_y = tile.coord_y
+      ${where?.name ? "WHERE boat.name = ?" : ""}`,
+      where?.name ? [where.name] : [],
     );
 
     return rows as (Boat & {
