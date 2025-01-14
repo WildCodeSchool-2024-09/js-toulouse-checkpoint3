@@ -7,7 +7,14 @@ const browse: RequestHandler = async (req, res, next) => {
 };
 
 const validate: RequestHandler = async (req, res, next) => {
-  // your code here
+  const { coord_x, coord_y } = req.body;
+  if (!coord_x || !coord_y) {
+    res.sendStatus(422);
+  }
+  const tile = await tileRepository.readByCoordinates(coord_x, coord_y);
+  if (tile) {
+    next();
+  }
 };
 
 export default {
