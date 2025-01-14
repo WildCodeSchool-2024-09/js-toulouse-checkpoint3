@@ -1,5 +1,14 @@
 {
   "name": "@js-monorepo/server",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "jest.config.js",
+  "directories": {
+    "test": "tests"
+  },
   "scripts": {
     "check-types": "tsc --noEmit",
     "dev": "tsx watch --clear-screen=false ./src/main",
@@ -7,7 +16,8 @@
     "db:seed": "tsx ./bin/seed",
     "build": "tsx ./bin/migrate && tsc ./src/main --outDir ../dist --esModuleInterop",
     "start": "node ../dist/src/main",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "fix": "npx @biomejs/biome check --write ."
   },
   "dependencies": {
     "cors": "^2.8.5",
